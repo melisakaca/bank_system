@@ -5,24 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BankAccount extends Model
+class CardRequest extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'iban',
-        'currency',
-        'balance',
-        'status',
         'client_id',
+        'bank_account_id',
+        'monthly_salary',
+        'status',
+        'reason',
     ];
 
-    
     public function client()
     {
         return $this->belongsTo(User::class, 'client_id');
     }
-    public function cards()
+
+    public function bankAccount()
     {
-        return $this->hasMany(Card::class, 'bank_account_id');
+        return $this->belongsTo(BankAccount::class);
     }
 }

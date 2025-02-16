@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\CardController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -52,12 +54,17 @@ Route::middleware(['auth', 'role:banker'])->group(function () {
     Route::get('/pending-requests', [BankAccountController::class, 'index'])->name('bank-accounts.index');
     Route::put('/bank-accounts/{id}/approve', [BankAccountController::class, 'approve'])->name('bank-accounts.approve');
     Route::put('/bank-accounts/{id}/disapprove', [BankAccountController::class, 'disapprove'])->name('bank-accounts.disapprove');
+    Route::get('/card-requests', [CardController::class, 'index'])->name('card-requests.index');
+    Route::put('/card-requests-decisions/{id}/approve', [CardController::class, 'approve'])->name('card-requests.approve');
+    Route::put('/card-requests-decisions/{id}/disapprove', [CardController::class, 'disapprove'])->name('card-requests.disapprove');
 });
 
 
 Route::middleware(['auth', 'role:client'])->group(function () {
     Route::get('/client/request-account', [BankAccountController::class, 'create'])->name('bank-accounts.create');
     Route::post('/bank-accounts', [BankAccountController::class, 'store'])->name('bank-accounts.store');
+    Route::get('/request-card', [CardController::class, 'create'])->name('card-requests.create');
+    Route::post('/card-requests', [CardController::class, 'store'])->name('card-requests.store');
 });
 
 
