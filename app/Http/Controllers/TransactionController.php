@@ -81,7 +81,11 @@ class TransactionController extends Controller
     // List all transactions (for bankers)
     public function index()
     {
-        $transactions = Transaction::with('bankAccount.client')->get();
-        return view('backend.banker.transactions', compact('transactions'));
+        $transactions = Transaction::with('bankAccount.client')
+        ->whereHas('bankAccount', function ($query) {
+            $query->where('banker_id', auth()->id());
+        })->get();
+
+    return view('backend.banker.transactions', compact('transactions'));
     }
 }
