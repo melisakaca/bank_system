@@ -6,7 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\CardController;
-
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +57,7 @@ Route::middleware(['auth', 'role:banker'])->group(function () {
     Route::get('/card-requests', [CardController::class, 'index'])->name('card-requests.index');
     Route::put('/card-requests-decisions/{id}/approve', [CardController::class, 'approve'])->name('card-requests.approve');
     Route::put('/card-requests-decisions/{id}/disapprove', [CardController::class, 'disapprove'])->name('card-requests.disapprove');
+    Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 });
 
 
@@ -65,6 +66,8 @@ Route::middleware(['auth', 'role:client'])->group(function () {
     Route::post('/bank-accounts', [BankAccountController::class, 'store'])->name('bank-accounts.store');
     Route::get('/request-card', [CardController::class, 'create'])->name('card-requests.create');
     Route::post('/card-requests', [CardController::class, 'store'])->name('card-requests.store');
+    Route::get('/perform-transaction', [TransactionController::class, 'create'])->name('transactions.create');
+    Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
 });
 
 
