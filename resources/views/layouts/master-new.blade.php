@@ -46,11 +46,11 @@
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-        @include('layouts.menus.topbar')
+        @include('layouts.menu.topbar')
 
 
         <!-- ========== App Menu ========== -->
-        @include('layouts.menus.app-menu')
+        @include('layouts.menu.sidebar')
 
 
         <!-- Left Sidebar End -->
@@ -78,18 +78,14 @@
                         <div class="col-sm-6">
                             <script>
                                 document.write(new Date().getFullYear())
-                            </script> © FutureCRM.
-                            @php
-                                $versionData = get_storage('v.json');
-                            @endphp
+                            </script> © MelisaKaca.
+                           
 
-                            <strong>Last Update: </strong> {{ $versionData['date'] }} | <strong>Version: </strong>
-                            {{ $versionData['hash'] }} |
-
+                          
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Develop by <a href="https://futureblock.al" target="_blank">FutureBlock.al</a>
+                       
                             </div>
                         </div>
                     </div>
