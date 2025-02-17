@@ -111,11 +111,19 @@
                     </a>
                 </li>
                 @endcan
-                @can('view_transactions')
+                @can('view_own_transactions')
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('transactions.index') }}">
                         <i class="ri-dashboard-2-line"></i> <span data-key="t-Dashboard">
                             Transactions</span>
+                    </a>
+                </li>
+                @endcan
+                @can('view_transactions')
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('transactions.create') }}">
+                        <i class="ri-dashboard-2-line"></i> <span data-key="t-Dashboard">
+                            Create Transactions</span>
                     </a>
                 </li>
                 @endcan

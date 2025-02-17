@@ -72,6 +72,7 @@ Route::middleware(['auth', 'role:client'])->group(function () {
     Route::get('/request-card', [CardController::class, 'create'])->name('card-requests.create');
     Route::post('/card-requests', [CardController::class, 'store'])->name('card-requests.store');
     Route::get('/perform-transaction', [TransactionController::class, 'create'])->name('transactions.create');
+    Route::get('/transactions/list', [TransactionController::class, 'index'])->name('transactions.index');
     Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
 });
 

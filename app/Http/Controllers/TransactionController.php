@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class TransactionController extends Controller
 {
+
+    public function __construct()
+    {  
+        $this->middleware(['permission:perform_transactions'])->only( 'create', 'store');
+        $this->middleware(['permission:view_own_transactions'])->only( 'index', 'store');
+
+        // //   '',
+        //             'perform_transactions'
+       
+    }
     public function create()
     {
         $bankAccounts = auth()->user()->bankAccounts()->where('status', 'approved')->get();
