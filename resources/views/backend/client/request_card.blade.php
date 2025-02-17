@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master-new')
 
 @section('content')
 <!-- resources/views/client/request_card.blade.php -->
@@ -16,6 +16,6 @@
         <label for="monthly_salary">Monthly Salary (€)</label>
         <input type="number" name="monthly_salary" id="monthly_salary" class="form-control" step="0.01" required>
     </div>
-    <button type="submit" class="btn btn-primary">Submit Request</button>
+    <button type="submit" class="btn btn-primary mt-4">Submit Request</button>
 </form>
 @endsection

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master-new')
 
 @section('content')
     <h1>Edit Client</h1>
@@ -21,6 +21,6 @@
             <label for="password_confirmation">Confirm Password</label>
             <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary mt-4">Update</button>
     </form>
 @endsection

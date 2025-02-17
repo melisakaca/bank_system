@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master-new')
 
 @section('content')
 <!-- resources/views/client/perform_transaction.blade.php -->
@@ -20,6 +20,6 @@
         <label for="amount">Amount (€)</label>
         <input type="number" name="amount" id="amount" class="form-control" step="0.01" required>
     </div>
-    <button type="submit" class="btn btn-primary">Perform Transaction</button>
+    <button type="submit" class="btn btn-primary mt-4">Perform Transaction</button>
 </form>
 @endsection

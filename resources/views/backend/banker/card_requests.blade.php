@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master-new')
 
 @section('content')
 <!-- resources/views/banker/card_requests.blade.php -->

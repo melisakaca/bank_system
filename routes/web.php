@@ -28,7 +28,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
@@ -51,7 +53,10 @@ Route::middleware(['auth', 'role:banker'])->group(function () {
     Route::get('/clients/{user}/edit', [ClientController::class, 'edit'])->name('clients.edit');
     Route::put('/clients/{user}', [ClientController::class, 'update'])->name('clients.update');
     Route::delete('/clients/{user}', [ClientController::class, 'destroy'])->name('clients.destroy');
+   
     Route::get('/pending-requests', [BankAccountController::class, 'index'])->name('bank-accounts.index');
+    Route::get('/bank-accounts', [BankAccountController::class, 'indexBankAccounts'])->name('bank-accounts.all');
+
     Route::put('/bank-accounts/{id}/approve', [BankAccountController::class, 'approve'])->name('bank-accounts.approve');
     Route::put('/bank-accounts/{id}/disapprove', [BankAccountController::class, 'disapprove'])->name('bank-accounts.disapprove');
     Route::get('/card-requests', [CardController::class, 'index'])->name('card-requests.index');

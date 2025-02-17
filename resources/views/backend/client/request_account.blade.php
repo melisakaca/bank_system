@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master-new')
 
 @section('content')
 <div class="container">
@@ -11,7 +11,7 @@
                 <option value="EUR">EUR</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Submit Request</button>
+        <button type="submit" class="btn btn-primary mt-4">Submit Request</button>
     </form>
 </div>
 @endsection

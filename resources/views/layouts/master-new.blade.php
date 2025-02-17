@@ -5,7 +5,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>FutureCRM - {{ get_option('site_title', config('app.name')) }}</title>
+    <title> {{ config('app.name')}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
@@ -112,7 +112,7 @@
         </div>
     </div>
 
-    @include('layouts.menus.theme-settings')
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- JAVASCRIPT -->

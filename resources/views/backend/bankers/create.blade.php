@@ -1,6 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.master-new')
 
 @section('content')
+
     <h1>Create Banker</h1>
     <form action="{{ route('bankers.store') }}" method="POST">
         @csrf
@@ -20,6 +21,6 @@
             <label for="password_confirmation">Confirm Password</label>
             <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="submit" class="btn btn-primary mt-4">Create</button>
     </form>
 @endsection

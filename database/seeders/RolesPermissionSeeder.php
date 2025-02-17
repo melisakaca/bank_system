@@ -8,6 +8,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\RolePermission;
+use Illuminate\Support\Facades\DB;
 class RolesPermissionSeeder extends Seeder
 {
     /**
@@ -15,7 +16,7 @@ class RolesPermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        \DB::transaction(function () {
+        DB::transaction(function () {
            
             $roles = [
                 'admin' => ['manage_bankers'],

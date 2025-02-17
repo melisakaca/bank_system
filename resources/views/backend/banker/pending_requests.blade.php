@@ -1,5 +1,5 @@
 <!-- resources/views/banker/pending_requests.blade.php -->
-@extends('layouts.app')
+@extends('layouts.master-new')
 
 @section('content')
 <div class="container">
