@@ -20,7 +20,7 @@ use App\Http\Controllers\TransactionController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('login');
 });
 
 Route::get('/dashboard', function () {
@@ -30,7 +30,6 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
@@ -81,6 +80,8 @@ Route::middleware(['auth', 'role:client'])->group(function () {
 });
 Route::middleware(['auth'])->group(function () {
     Route::get('/bank-accounts', [BankAccountController::class, 'indexBankAccounts'])->name('bank-accounts.all');
+    Route::get('/bank-accounts/{id}/view', [BankAccountController::class, 'viewBankAccount'])->name('bank-accounts.view');
+
     Route::get('/cardsAll', [CardController::class, 'indexAll'])->name('cards.all');
     Route::get('/transactions/list', [TransactionController::class, 'index'])->name('transactions.index');
 });

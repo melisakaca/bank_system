@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\BankAccount;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 
 class BankAccountController extends Controller
@@ -61,6 +62,26 @@ class BankAccountController extends Controller
     
         $bankAccounts = $bankAccountQuery->get();
         return view('backend.banker.bankAccounts', compact('bankAccounts'));
+    }
+    public function viewBankAccount($id){
+        $transactionsQuery = Transaction::with('bankAccount.client');
+
+        
+        if (Auth::user()->can('view_own_transactions')) {
+            $transactionsQuery->whereHas('bankAccount', function ($query) {
+                $query->where('client_id', Auth::id());
+            });
+        }
+        if($id!=null){
+            $transactionsQuery->whereHas('bankAccount', function ($query) use ($id)  {
+                $query->where('id', $id);
+            });
+        }
+    
+        // Retrieve the filtered transactions
+        $transactions = $transactionsQuery->get();
+        
+        return view('backend.banker.view_bank_account', compact('transactions'));
     }
     // Approve a bank account request (for bankers)
     public function approve($id)

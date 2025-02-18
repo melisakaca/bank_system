@@ -23,7 +23,7 @@
                                     <th>Currency</th>
                                     <th>Type</th>
                                     <th>Date</th>
-                                    {{-- <th>Actions</th> --}}
+                                  
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,16 +36,7 @@
                                         <td>{{ $transaction->currency }}</td>
                                         <td>{{ $transaction->type }}</td>
                                         <td>{{ $transaction->created_at->format('d M, Y') }}</td>
-                                        {{-- <td>
-                                            <a href="{{ route('transactions.edit', $transaction) }}" class="btn btn-sm btn-warning">Edit</a>
-                                            <form action="{{ route('transactions.destroy', $transaction) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
-                                                    Delete
-                                                </button>
-                                            </form>
-                                        </td> --}}
+                                        
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -28,7 +28,8 @@
                             <tbody>
                                 @foreach ($bankAccounts as $bankAccount)
                                     <tr>
-                                        <td>{{ $bankAccount->iban }}</td>
+                                        <td><a href="{{ route('bank-accounts.view',$bankAccount->id) }}"
+                                            class="btn btn-sm btn-warning">{{ $bankAccount->iban }}</a></td>
                                         <td>{{ $bankAccount->currency }}</td>
                                         <td>{{ $bankAccount->balance }}</td>
                                         <td>{{ $bankAccount->status }}</td>

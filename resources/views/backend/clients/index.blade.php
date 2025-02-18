@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-xl-12">
-        <div class="">
+        <div class="card">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">Clients</h4>
                 <h4>  <a href="{{ route('clients.create') }}" class="btn btn-primary">Create client</a></h4>

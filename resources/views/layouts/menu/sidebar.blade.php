@@ -5,7 +5,7 @@
         
         <a href="{{ route('dashboard') }}" class="mt-5">
           
-               <h4 style="">BankGreen</h4> 
+               <h4 style="color:beige" class="mt-5">BankGreen</h4> 
           
            
              

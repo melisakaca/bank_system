@@ -42,7 +42,27 @@ class TransactionController extends Controller
         // Retrieve the source and destination accounts
         $sourceAccount = BankAccount::findOrFail($request->source_account);
         $destinationAccount = BankAccount::where('iban', $request->destination_iban)->firstOrFail();
-
+        if ($sourceAccount->id === $destinationAccount->id) {
+            DB::transaction(function () use ($sourceAccount, $request) {
+                $creditTransaction = Transaction::create([
+                    'bank_account_id' => $sourceAccount->id,
+                    'amount'          => $request->amount,
+                    'currency'        => 'EUR',
+                    'type'            => 'CREDIT',
+                    'related_account' => $sourceAccount->id, // Self-referencing
+                ]);
+    
+                if (!$creditTransaction) {
+                    throw new \Exception('Failed to create credit transaction.');
+                } else {
+                    $sourceAccount->increment('balance', $request->amount);
+                }
+            });
+    
+            return redirect()->route('transactions.index')
+                             ->with('success', 'Deposit completed successfully.');
+        }
+    
         // Check if the source account has enough balance
         if ($sourceAccount->balance < $request->amount) {
             return redirect()->back()->withErrors(['error' => 'Insufficient balance in the source account.']);
@@ -97,15 +117,14 @@ class TransactionController extends Controller
     {
         $transactionsQuery = Transaction::with('bankAccount.client');
 
-        // If the authenticated user can only view their own transactions,
-        // filter the transactions based on the bank account's client_id.
+
+       
         if (Auth::user()->can('view_own_transactions')) {
             $transactionsQuery->whereHas('bankAccount', function ($query) {
                 $query->where('client_id', Auth::id());
             });
         }
     
-        // Retrieve the filtered transactions
         $transactions = $transactionsQuery->get();
         return view('backend.banker.transactions', compact('transactions'));
     }
