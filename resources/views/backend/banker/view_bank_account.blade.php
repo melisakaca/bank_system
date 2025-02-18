@@ -32,7 +32,7 @@
                                         <td>{{ $transaction->id }}</td>
                                         <td>{{ $transaction->bankAccount->client->name ?? 'N/A' }}</td>
                                         <td>{{ $transaction->bankAccount->client->email ?? 'N/A' }}</td>
-                                        <td>{{ $transaction->amount }}</td>
+                                        <td>{{ $transaction->amount }} €</td>
                                         <td>{{ $transaction->currency }}</td>
                                         <td>{{ $transaction->type }}</td>
                                         <td>{{ $transaction->created_at->format('d M, Y') }}</td>

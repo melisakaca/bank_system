@@ -38,7 +38,7 @@
                                             <td><a href="{{ route('bank-accounts.view', $transaction->bankAccount->id) }}"
                                                     class="">{{ $transaction->bankAccount->iban ?? 'N/A' }}</a>
                                             </td>
-                                            <td>{{ $transaction->amount }}</td>
+                                            <td>{{ $transaction->amount }} €</td>
                                             <td>{{ $transaction->currency }}</td>
                                             <td>{{ $transaction->type }}</td>
                                             <td>{{ $transaction->created_at->format('d M, Y') }}</td>

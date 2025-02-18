@@ -32,7 +32,7 @@
                                             <td><a href="{{ route('bank-accounts.view', $bankAccount->id) }}"
                                                     class="">{{ $bankAccount->iban }}</a></td>
                                             <td>{{ $bankAccount->currency }}</td>
-                                            <td>{{ $bankAccount->balance }}</td>
+                                            <td>{{ $bankAccount->balance }} €</td>
                                             <td>{{ $bankAccount->status }}</td>
                                             <td>{{ $bankAccount->client->name ?? 'N/A' }}</td>
                                             <td>{{ $bankAccount->client->email ?? 'N/A' }}</td>

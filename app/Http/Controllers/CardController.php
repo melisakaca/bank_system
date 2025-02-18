@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CardRequest;
 use App\Models\Card;
+use App\Models\BankAccount;
+
 use Illuminate\Support\Facades\Auth;
 
 class CardController extends Controller
@@ -31,6 +33,12 @@ class CardController extends Controller
             'monthly_salary' => 'required|numeric|min:0',
         ]);
 
+        $bankAccount = BankAccount::find($request->bank_account_id);
+
+    
+        if ($bankAccount->status !== 'approved') {
+            return redirect()->route('cards.all')->with(['error' =>'The selected bank account is not active.']);
+        }
         // Automatically deny if monthly salary is less than €500
         $status = ($request->monthly_salary < 500) ? 'disapproved' : 'pending';
 
@@ -90,6 +98,11 @@ class CardController extends Controller
             'cvv' => rand(100, 999),
             'status' => 'active',
         ]);
+        // dd($cardRequest);
+        //update balance with new salary
+        // $cardRequest->bankAccount->update([
+        //   'balance' => $cardRequest->bankAccount->balance + $cardRequest->monthly_salary
+        // ]);
 
         return redirect()->route('card-requests.index')->with('success', 'Card request approved.');
     }
