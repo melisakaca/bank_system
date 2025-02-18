@@ -6,7 +6,9 @@
         <div class="">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">Transactions</h4>
-                <h4>  <a href="{{ route('transactions.create') }}" class="btn btn-primary">Create transaction</a></h4>
+             @can('perform_transactions')
+                 
+               <h4>  <a href="{{ route('transactions.create') }}" class="btn btn-primary">Create transaction</a></h4> @endcan
             </div>
             <div class="card-body">
                 <div class="live-preview">

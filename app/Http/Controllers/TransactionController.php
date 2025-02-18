@@ -13,8 +13,10 @@ class TransactionController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['permission:perform_transactions'])->only('create', 'store');
-        $this->middleware(['permission:view_own_transactions'])->only('index', 'store');
+        // $this->middleware(['permission:perform_transactions'])->only('create', 'store', 'index');
+        // $this->middleware(['permission:view_own_transactions'])->only('index', 'store');
+        // $this->middleware(['permission:view_all_transactions'])->only('index', 'store');
+
 
         // //   '',
         //             'perform_transactions'

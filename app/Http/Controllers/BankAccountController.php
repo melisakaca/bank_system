@@ -12,6 +12,8 @@ class BankAccountController extends Controller
     public function __construct()
     {  
         $this->middleware(['permission:request_bank_account'])->only( 'create', 'store');
+        // $this->middleware(['permission:view_own_account'])->only( 'edit', 'destroy');
+
        
     }
     public function create()

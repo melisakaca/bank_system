@@ -95,30 +95,32 @@
                     </a>
                 </li>
                 @endcan
-                @can('view_all_accounts')
+                @if(Auth::user()->can('view_all_accounts') || Auth::user()->can('view_own_accounts'))
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('bank-accounts.index') }}">
+                    <a class="nav-link menu-link" href="{{ route('bank-accounts.all') }}">
                         <i class="ri-dashboard-2-line"></i> <span data-key="t-Dashboard">
                             Bank Accounts</span>
                     </a>
                 </li>
-                @endcan
-                @can('view_all_cards')
+                @endif
+                @if(Auth::user()->can('view_all_cards') || Auth::user()->can('view_own_cards'))
+        
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('bank-accounts.index') }}">
+                    <a class="nav-link menu-link" href="{{ route('cards.all') }}">
                         <i class="ri-dashboard-2-line"></i> <span data-key="t-Dashboard">
                             Cards</span>
                     </a>
                 </li>
-                @endcan
-                @can('view_own_transactions')
+                @endif
+               
+                @if(Auth::user()->can('view_own_transactions') || Auth::user()->can('view_all_transactions'))
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('transactions.index') }}">
                         <i class="ri-dashboard-2-line"></i> <span data-key="t-Dashboard">
                             Transactions</span>
                     </a>
                 </li>
-                @endcan
+               @endif
                 @can('view_transactions')
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('transactions.create') }}">

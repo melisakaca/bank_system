@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CardRequest;
 use App\Models\Card;
+use Illuminate\Support\Facades\Auth;
 
 class CardController extends Controller
 {
@@ -41,7 +42,20 @@ class CardController extends Controller
         $cardRequests = CardRequest::where('status', 'pending')->with(['client', 'bankAccount'])->get();
         return view('backend.banker.card_requests', compact('cardRequests'));
     }
+    public function indexAll()
+    {
+        $cardsQuery = Card::with('bankAccount.client');
 
+        if (Auth::user()->can('view_own_cards')) {
+            $cardsQuery->whereHas('bankAccount', function ($query) {
+                $query->where('client_id', Auth::id());
+            });
+        }
+    
+        $cards = $cardsQuery->get();
+      
+        return view('backend.banker.cardAll', compact('cards'));
+    }
     // Approve a card request (for bankers)
     public function approve($id)
     {
