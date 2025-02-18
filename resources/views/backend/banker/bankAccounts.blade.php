@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-xl-12">
-        <div class="">
+        <div class="card">
             <div class="card-header align-items-center d-flex mb-3">
                 <h4 class="card-title mb-0 flex-grow-1">Bank Accounts</h4>
                 @can('request_bank_account')

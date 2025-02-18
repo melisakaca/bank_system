@@ -2,29 +2,15 @@
     <!-- LOGO -->
     <div class="navbar-brand-box">
 
-        <!-- Dark Logo-->
-        <a href="index.html" class="logo logo-dark">
-            <span class="logo-sm">
-                <img src="{{ url('backend/images/FutureCRM.png') }}" alt="" height="22">
-            </span>
-            <span class="logo-lg">
-                <img src="{{ url('backend/images/FutureCRM.png') }}" alt="" height="25">
-            </span>
+        
+        <a href="{{ route('dashboard') }}" class="mt-5">
+          
+               <h4 style="">BankGreen</h4> 
+          
+           
+             
+         
         </a>
-        <!-- Light Logo-->
-        <a href="{{ route('dashboard') }}" class="logo logo-light">
-            <span class="logo-sm">
-                <img src="{{ url('backend/images/FutureCRM.png') }}" alt="" height="22">
-            </span>
-            <span class="logo-lg">
-                <img src="{{ url('backend/images/FutureCRM.png') }}" alt="" height="25">
-            </span>
-        </a>
-
-
-
-
-
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
             id="vertical-hover">
             <i class="ri-record-circle-line"></i>

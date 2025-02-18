@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-xl-12">
-        <div class="">
+        <div class="card">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">Transactions</h4>
              @can('perform_transactions')

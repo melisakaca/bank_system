@@ -53,17 +53,17 @@ Route::middleware(['auth', 'role:banker'])->group(function () {
     Route::get('/clients/{user}/edit', [ClientController::class, 'edit'])->name('clients.edit');
     Route::put('/clients/{user}', [ClientController::class, 'update'])->name('clients.update');
     Route::delete('/clients/{user}', [ClientController::class, 'destroy'])->name('clients.destroy');
-   
+
     Route::get('/pending-requests', [BankAccountController::class, 'index'])->name('bank-accounts.index');
     Route::get('/bank-accounts/{id}/edit', [BankAccountController::class, 'edit'])->name('bank-accounts.edit');
     Route::get('/bank-accounts/{id}/destroy', [BankAccountController::class, 'destroy'])->name('bank-accounts.destroy');
 
 
-   
+
     Route::put('/bank-accounts/{id}/approve', [BankAccountController::class, 'approve'])->name('bank-accounts.approve');
     Route::put('/bank-accounts/{id}/disapprove', [BankAccountController::class, 'disapprove'])->name('bank-accounts.disapprove');
     Route::get('/card-requests', [CardController::class, 'index'])->name('card-requests.index');
-   
+
 
     Route::put('/card-requests-decisions/{id}/approve', [CardController::class, 'approve'])->name('card-requests.approve');
     Route::put('/card-requests-decisions/{id}/disapprove', [CardController::class, 'disapprove'])->name('card-requests.disapprove');
@@ -77,13 +77,13 @@ Route::middleware(['auth', 'role:client'])->group(function () {
     Route::get('/request-card', [CardController::class, 'create'])->name('card-requests.create');
     Route::post('/card-requests', [CardController::class, 'store'])->name('card-requests.store');
     Route::get('/perform-transaction', [TransactionController::class, 'create'])->name('transactions.create');
-    Route::get('/transactions/list', [TransactionController::class, 'index'])->name('transactions.index');
     Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
 });
 Route::middleware(['auth'])->group(function () {
     Route::get('/bank-accounts', [BankAccountController::class, 'indexBankAccounts'])->name('bank-accounts.all');
-Route::get('/cardsAll', [CardController::class, 'indexAll'])->name('cards.all');
+    Route::get('/cardsAll', [CardController::class, 'indexAll'])->name('cards.all');
+    Route::get('/transactions/list', [TransactionController::class, 'index'])->name('transactions.index');
 });
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
