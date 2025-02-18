@@ -6,8 +6,6 @@ use App\Models\BankAccount;
 use App\Models\Card;
 use App\Models\CardRequest;
 use App\Models\User;
-use App\Models\Client;
-
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -18,7 +16,7 @@ class CardRequestControllerTest extends TestCase
     public function test_approve_card_request()
     {
         // Step 1: Create a user and bank account
-        $user = Client::factory()->create();
+        $user = User::factory()->create();
         $bankAccount = BankAccount::factory()->create([
             'client_id' => $user->id,
             'balance' => 1000, // Initial balance
@@ -54,8 +52,18 @@ class CardRequestControllerTest extends TestCase
         // Step 7: Assert a new card is created
         $this->assertDatabaseHas('cards', [
             'bank_account_id' => $bankAccount->id,
-            'status' => 'approved',
+            'status' => 'active',
         ]);
     }
-   
+    public function test_approve_card_request_fails_for_invalid_id()
+    {
+        // Step 1: Create a user
+        $user = User::factory()->create();
+
+        // Step 2: Attempt to approve a non-existent card request
+        $response = $this->actingAs($user)->post(route('card-requests.approve', 999));
+
+        // Step 3: Assert the response
+        $response->assertStatus(404); // Not Found
+    }
 }
