@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('currency', 3)->default('EUR');
             $table->enum('type', ['debit', 'credit']);
             $table->string('related_account', 34);
+
             $table->timestamps();
         });
     }

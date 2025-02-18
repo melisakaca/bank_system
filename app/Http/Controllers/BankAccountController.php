@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\BankAccount;
+use Illuminate\Support\Facades\Auth;
+
 class BankAccountController extends Controller
 {
 
@@ -46,6 +48,18 @@ class BankAccountController extends Controller
         return view('backend.banker.pending_requests', compact('pendingRequests'));
     }
 
+    public function indexBankAccounts()
+    {
+      
+        $bankAccountQuery = BankAccount::with('client');
+
+        if (Auth::user()->can('view_own_accounts')) {
+            $bankAccountQuery->where('client_id', Auth::id());
+        }
+    
+        $bankAccounts = $bankAccountQuery->get();
+        return view('backend.banker.bankAccounts', compact('bankAccounts'));
+    }
     // Approve a bank account request (for bankers)
     public function approve($id)
     {

@@ -21,6 +21,7 @@ class BankAccount extends Model
     {
         return $this->belongsTo(User::class, 'client_id');
     }
+    
     public function cards()
     {
         return $this->hasMany(Card::class, 'bank_account_id');

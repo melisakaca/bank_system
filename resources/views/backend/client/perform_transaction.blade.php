@@ -20,6 +20,8 @@
         <label for="amount">Amount (€)</label>
         <input type="number" name="amount" id="amount" class="form-control" step="0.01" required>
     </div>
+    <input type="hidden" name="transaction_type" value="DEBIT">
     <button type="submit" class="btn btn-primary mt-4">Perform Transaction</button>
+    
 </form>
 @endsection
