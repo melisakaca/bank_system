@@ -21,7 +21,12 @@
                                         <th>Bank Account</th>
                                         <th>Monthly Salary</th>
                                         <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>Comment</th>
+
+
+                                        @can('approve_debit_cards')
+                                            <th>Actions</th>
+                                        @endcan
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -31,18 +36,22 @@
                                             <td>{{ $request->bankAccount->iban }}</td>
                                             <td>€{{ number_format($request->monthly_salary, 2) }}</td>
                                             <td>{{ $request->status }}</td>
-                                            <td>
-                                                <form action="{{ route('card-requests.approve', $request->id) }}"
-                                                    method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <button type="submit" class="btn btn-success">Approve</button>
-                                                </form>
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#disapproveModal" data-request-id="{{ $request->id }}">
-                                                    Disapprove
-                                                </button>
-                                            </td>
+                                            <td>{{ $request->reason ?? '-' }}</td>
+
+                                            @can('approve_debit_cards')
+                                                <td>
+                                                    <form action="{{ route('card-requests.approve', $request->id) }}"
+                                                        method="POST" style="display:inline;">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn btn-success">Approve</button>
+                                                    </form>
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#disapproveModal" data-request-id="{{ $request->id }}">
+                                                        Disapprove
+                                                    </button>
+                                                </td>
+                                            @endcan
                                         </tr>
                                     @endforeach
                                 </tbody>

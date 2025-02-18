@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class CardController extends Controller
 {
+
+    public function __construct()
+    {  
+        $this->middleware(['permission:request_debit_card'])->only( 'create', 'store');
+        // $this->middleware(['permission:view_own_account'])->only( 'edit', 'destroy');
+
+       
+    }
     public function create()
     {
         $bankAccounts = auth()->user()->bankAccounts()->where('status', 'approved')->get();
@@ -26,20 +34,33 @@ class CardController extends Controller
         // Automatically deny if monthly salary is less than €500
         $status = ($request->monthly_salary < 500) ? 'disapproved' : 'pending';
 
-        CardRequest::create([
+        $cardRequest = CardRequest::create([
             'client_id' => auth()->id(),
             'bank_account_id' => $request->bank_account_id,
             'monthly_salary' => $request->monthly_salary,
             'status' => $status,
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Card request submitted successfully.');
+        if($cardRequest->status == 'disapproved'){
+            return redirect()->route('cards.all')->with('error', 'Card request denied for lack of funds.');
+        }
+        return redirect()->route('cards.all')->with('success', 'Card request submitted successfully.');
     }
 
     // List pending card requests (for bankers)
     public function index()
     {
-        $cardRequests = CardRequest::where('status', 'pending')->with(['client', 'bankAccount'])->get();
+        if(Auth::user()->can('request_debit_card')){
+            $cardRequestQuery = CardRequest::with(['client', 'bankAccount']);
+            $cardRequestQuery->whereHas('bankAccount', function ($query) {
+                $query->where('client_id', Auth::id());
+            });
+            $cardRequests = $cardRequestQuery->get();
+        }
+        else{
+            $cardRequests = CardRequest::where('status', 'pending')->with(['client', 'bankAccount'])->get();
+        }
+       
         return view('backend.banker.card_requests', compact('cardRequests'));
     }
     public function indexAll()

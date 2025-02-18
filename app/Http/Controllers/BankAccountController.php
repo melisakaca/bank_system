@@ -41,7 +41,7 @@ class BankAccountController extends Controller
             'client_id' => auth()->id(),
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Bank account request submitted successfully.');
+        return redirect()->route('bank-accounts.all')->with('success', 'Bank account request submitted successfully.');
     }
 
     // List pending requests (for bankers)
@@ -89,7 +89,7 @@ class BankAccountController extends Controller
         $bankAccount = BankAccount::findOrFail($id);
         $bankAccount->update(['status' => 'approved']);
 
-        return redirect()->route('bank-accounts.index')->with('success', 'Bank account request approved.');
+        return redirect()->route('bank-accounts.all')->with('success', 'Bank account request approved.');
     }
 
     // Disapprove a bank account request (for bankers)
@@ -98,6 +98,6 @@ class BankAccountController extends Controller
         $bankAccount = BankAccount::findOrFail($id);
         $bankAccount->update(['status' => 'disapproved']);
 
-        return redirect()->route('bank-accounts.index')->with('success', 'Bank account request disapproved.');
+        return redirect()->route('bank-accounts.all')->with('success', 'Bank account request disapproved.');
     }
 }

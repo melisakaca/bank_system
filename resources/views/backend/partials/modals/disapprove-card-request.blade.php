@@ -4,17 +4,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="disapproveModalLabel">Disapprove Card Request</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                {{-- <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button> --}}
             </div>
             <div class="modal-body">
-            <form id="disapproveForm" method="POST">
-                        @csrf
-                        @method('PUT')
+                <form id="disapproveForm" method="POST">
+                    @csrf
+                    @method('PUT')
                     <div class="form-group">
                         <label for="reason">Reason for Disapproval</label>
-                        <input type="text" name="reason" id="reason" class="form-control" placeholder="Enter reason" required>
+                        <input type="text" name="reason" id="reason" class="form-control"
+                            placeholder="Enter reason" required>
                     </div>
                 </form>
             </div>
@@ -26,15 +27,35 @@
     </div>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-    
-        $('#disapproveModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); 
-            var requestId = button.data('request-id'); 
-            var form = $('#disapproveForm'); 
+    document.addEventListener('DOMContentLoaded', function() {
+
+        $('#disapproveModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var requestId = button.data('request-id');
+            var form = $('#disapproveForm');
+            form.find('#reason').val('');
+
+
+
+            form.attr('action', '/card-requests-decisions/' + requestId + '/disapprove');
+        });
+
+        $('#disapproveForm').on('submit', function(e) {
+            e.preventDefault(); 
+
+            var form = $(this);
+            var url = form.attr('action');
+            var data = form.serialize();
 
            
-            form.attr('action', '/card-requests-decisions/' + requestId + '/disapprove');
+            $.post(url, data, function(response) {
+               
+                $('#disapproveModal').modal('hide');
+              
+               
+            }).fail(function() {
+                alert('An error occurred. Please try again.');
+            });
         });
     });
 </script>

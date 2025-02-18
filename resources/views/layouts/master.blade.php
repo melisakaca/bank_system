@@ -54,7 +54,7 @@
     @if (\Session::has('error'))
         <script>
             Swal.fire(
-                'Gabim!',
+                'Error!',
                 '{{ \Session::get('error') }}',
                 'info'
             )

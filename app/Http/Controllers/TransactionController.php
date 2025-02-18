@@ -7,19 +7,16 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 class TransactionController extends Controller
 {
 
     public function __construct()
     {
-        // $this->middleware(['permission:perform_transactions'])->only('create', 'store', 'index');
+        $this->middleware(['permission:perform_transactions'])->only('create');
         // $this->middleware(['permission:view_own_transactions'])->only('index', 'store');
         // $this->middleware(['permission:view_all_transactions'])->only('index', 'store');
-
-
-        // //   '',
-        //             'perform_transactions'
 
     }
     public function create()
@@ -32,16 +29,19 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
-        
-        $request->validate([
+       
+        $validator = Validator::make($request->all(), [
             'source_account' => 'required|exists:bank_accounts,id',
             'destination_iban' => 'required|exists:bank_accounts,iban',
             'amount' => 'required|numeric|min:0.01',
         ]);
-
+        if ($validator->fails()) {
+            return redirect()->back()->with(['error' => 'Something went wrong']);
+        }
         // Retrieve the source and destination accounts
         $sourceAccount = BankAccount::findOrFail($request->source_account);
         $destinationAccount = BankAccount::where('iban', $request->destination_iban)->firstOrFail();
+        // dd($destinationAccount);
         if ($sourceAccount->id === $destinationAccount->id) {
             DB::transaction(function () use ($sourceAccount, $request) {
                 $creditTransaction = Transaction::create([
@@ -53,29 +53,31 @@ class TransactionController extends Controller
                 ]);
     
                 if (!$creditTransaction) {
-                    throw new \Exception('Failed to create credit transaction.');
+                    return redirect()->back()->with(['error' => 'Something went wrong']);
                 } else {
                     $sourceAccount->increment('balance', $request->amount);
+                    return redirect()->route('transactions.index')
+                    ->with(['success'=> 'Deposit completed successfully.']);
                 }
             });
     
-            return redirect()->route('transactions.index')
-                             ->with('success', 'Deposit completed successfully.');
+           
         }
-    
+      
+        if (!$destinationAccount) {
+            return redirect()->back()->with(['error' => 'Destination account not found.']);
+        }
         // Check if the source account has enough balance
         if ($sourceAccount->balance < $request->amount) {
-            return redirect()->back()->withErrors(['error' => 'Insufficient balance in the source account.']);
+            return redirect()->back()->with(['error' => 'Insufficient balance in the source account.']);
         }
 
         // Check if the source account is linked to a debit card
         if (!$sourceAccount->cards()->exists()) {
-            return redirect()->back()->with('error', 'The source account is not linked to a debit card.');
+            return redirect()->back()->with(['error', 'The source account is not linked to a debit card.']);
         }
 
-        if (!$destinationAccount) {
-            return redirect()->back()->with('error', 'Destination account not found.');
-        }
+       
         // Perform the transaction within a database transaction
         DB::transaction(function () use ($sourceAccount, $destinationAccount, $request) {
 
@@ -90,7 +92,8 @@ class TransactionController extends Controller
 
 
             if (!$sourceTransaction) {
-                throw new \Exception('Failed to create source transaction.');
+                return redirect()->back()->with(['error' => 'Something went wrong']);
+              
             } else {
                 $sourceAccount->decrement('balance', $request->amount);
             }
@@ -104,7 +107,8 @@ class TransactionController extends Controller
                 'related_account'=>$sourceAccount->id
             ]);
             if (!$destinationTransaction) {
-                throw new \Exception('Failed to create destination transaction.');
+                return redirect()->back()->with(['error' => 'Something went wrong']);
+
             } else {
                 $destinationAccount->increment('balance', $request->amount);
             }

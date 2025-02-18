@@ -19,7 +19,9 @@
                                     <th>Currency</th>
                                     <th>Client</th>
                                     <th>Status</th>
-                                    <th>Actions</th>
+                                    @can('approve_bank_accounts')
+                                        <th>Actions</th>
+                                    @endcan
                                 </tr>
                             </thead>
                             <tbody>
@@ -29,20 +31,22 @@
                                         <td>{{ $request->currency }}</td>
                                         <td>{{ $request->client->name }}</td>
                                         <td>{{ $request->status }}</td>
-                                        <td>
-                                            <form action="{{ route('bank-accounts.approve', $request->id) }}" method="POST"
-                                                style="display:inline;">
-                                                @csrf
-                                                @method('PUT')
-                                                <button type="submit" class="btn btn-success">Approve</button>
-                                            </form>
-                                            <form action="{{ route('bank-accounts.disapprove', $request->id) }}"
-                                                method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('PUT')
-                                                <button type="submit" class="btn btn-danger">Disapprove</button>
-                                            </form>
-                                        </td>
+                                        @can('approve_bank_accounts')
+                                            <td>
+                                                <form action="{{ route('bank-accounts.approve', $request->id) }}" method="POST"
+                                                    style="display:inline;">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit" class="btn btn-success">Approve</button>
+                                                </form>
+                                                <form action="{{ route('bank-accounts.disapprove', $request->id) }}"
+                                                    method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit" class="btn btn-danger">Disapprove</button>
+                                                </form>
+                                            </td>
+                                        @endcan
                                     </tr>
                                 @endforeach
                             </tbody>
